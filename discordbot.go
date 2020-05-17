@@ -67,9 +67,20 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	if strings.HasPrefix(m.Content, "$") {
 		command := strings.Replace(m.Content, "$", "", 1)
-		s.ChannelMessageSend(m.ChannelID, executeCommand(command))
+
+		embed := generateEmbed(m, executeCommand(command))
+		s.ChannelMessageSendEmbed(m.ChannelID, embed)
+
 	}
 
+}
+func generateEmbed(m *discordgo.MessageCreate, output string) *discordgo.MessageEmbed {
+
+	embed := &discordgo.MessageEmbed{
+		Color:       0x00ff00, // Green
+		Description: "```cmd\n" + output + "\n```",
+	}
+	return embed
 }
 func executeCommand(command string) string {
 	//trimming spaces
@@ -87,8 +98,4 @@ func executeCommand(command string) string {
 		output = output + "\nError:" + err.Error()
 	}
 	return output
-}
-
-func bultin(command string) string {
-
 }

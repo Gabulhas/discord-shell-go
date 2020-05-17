@@ -84,9 +84,11 @@ func generateEmbed(m *discordgo.MessageCreate, output string) *discordgo.Message
 }
 func executeCommand(command string) string {
 	//trimming spaces
+
+	command = strings.TrimSpace(command)
 	/*
-		command = strings.TrimSpace(command)
 		temp := headCommandRegex.Split(command, -1)
+
 	*/
 	args := strings.Split(command, " ")
 	fmt.Println(args)
